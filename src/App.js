@@ -1,186 +1,293 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { FaTelegram, FaTwitter, FaGlobe } from "react-icons/fa";
 
-const App = () => {
-  const [roadmapText, setRoadmapText] = useState("Roadmap");
+function App() {
+  const [text, setText] = useState("");
+  const fullText = "$COSMOS On NEAR";
+  const [typingIndex, setTypingIndex] = useState(0);
+  const [showPopup, setShowPopup] = useState(false);  // State to handle popup visibility
 
-  const styles = {
-    app: {
-      fontFamily: "'Courier New', Courier, monospace",
-      color: "#fff",
-      backgroundColor: "#000",
-      minHeight: "100vh",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between",
-      overflow: "hidden",
-      position: "relative",
-    },
-    main: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      flex: "1",
-      gap: "2rem",
-      textAlign: "center",
-      position: "relative",
-      zIndex: 2,
-    },
-    synthium: {
-      fontSize: "3rem",
-      fontWeight: "bold",
-      color: "red",
-      textShadow: "0 0 10px red",
-      marginBottom: "10rem",
-    },
-    image: {
-      width: "250px",
-      height: "250px",
-      borderRadius: "50%",
-      border: "2px solid red",
-    },
-    buttonsContainer: {
-      display: "flex",
-      justifyContent: "center",
-      gap: "2rem",
-      alignItems: "center",
-    },
-    buttons: {
-      display: "flex",
-      flexDirection: "row",
-      gap: "1.5rem",
-    },
-    btn: {
-      padding: "0.8rem 2rem",
-      fontSize: "1rem",
-      borderRadius: "8px",
-      border: "1px solid red",
-      backgroundColor: "transparent",
-      color: "red",
-      cursor: "pointer",
-      transition: "all 0.3s ease",
-    },
-    btnHover: {
-      backgroundColor: "red",
-      color: "#000",
-    },
-    matrix: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      zIndex: 1,
-      opacity: 0.3,
-    },
-    aiText: {
-      padding: "1rem",
-      textAlign: "center",
-      backgroundColor: "#111",
-      color: "red",
-      fontSize: "1rem",
-    },
+  // Typing effect logic
+  useEffect(() => {
+    if (typingIndex < fullText.length) {
+      const timer = setTimeout(() => {
+        setText((prev) => prev + fullText[typingIndex]);
+        setTypingIndex((prev) => prev + 1);
+      }, 100); // Typing speed
+      return () => clearTimeout(timer);
+    }
+  }, [typingIndex]);
+
+  // Function to handle button click
+  const handleGameClick = () => {
+    setShowPopup(true); // Show popup
   };
 
-  const MatrixBackground = () => {
-    React.useEffect(() => {
-      const canvas = document.getElementById("matrixCanvas");
-      const ctx = canvas.getContext("2d");
-
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      const letters = "$SYNTHIUM";
-      const fontSize = 16;
-      const rows = canvas.height / fontSize;
-      const drops = Array(Math.floor(rows)).fill(1);
-
-      const draw = () => {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        ctx.fillStyle = "red";
-        ctx.font = `${fontSize}px monospace`;
-
-        drops.forEach((x, i) => {
-          const text = letters.charAt(Math.floor(Math.random() * letters.length));
-          ctx.fillText(text, x * fontSize, i * fontSize);
-
-          if (x * fontSize > canvas.width && Math.random() > 0.975) {
-            drops[i] = 0;
-          }
-          drops[i]++;
-        });
-      };
-
-      const interval = setInterval(draw, 50);
-
-      window.addEventListener("resize", () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      });
-
-      return () => clearInterval(interval);
-    }, []);
-
-    return <canvas id="matrixCanvas" style={styles.matrix}></canvas>;
+  // Function to handle closing the popup
+  const closePopup = () => {
+    setShowPopup(false); // Hide popup
   };
 
   return (
-    <div style={styles.app}>
-      {/* Matrix Background */}
-      <MatrixBackground />
+    <>
+      <style>{`
+        /* Global styles */
+        body {
+          margin: 0;
+          padding: 0;
+          font-family: "Arial", sans-serif;
+          background-color: #181818; /* Dark background */
+          color: #ffffff; /* White text */
+        }
 
-      {/* Main Section */}
-      <main style={styles.main}>
-        <h1 style={styles.synthium}>$SYNTHIUM</h1>
-        <div style={styles.buttonsContainer}>
-          <img
-            src="https://pbs.twimg.com/profile_images/1858851468909936640/penOn2j5_400x400.jpg"
-            alt="Profile"
-            style={styles.image}
-          />
-          <div style={styles.buttons}>
-            <button
-              style={styles.btn}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = styles.btnHover.backgroundColor;
-                e.target.style.color = styles.btnHover.color;
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = "transparent";
-                e.target.style.color = "red";
-              }}
-              onClick={() => window.location.href = "#"}
-            >
-              Buy Now
-            </button>
-            <button
-              style={styles.btn}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = styles.btnHover.backgroundColor;
-                e.target.style.color = styles.btnHover.color;
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = "transparent";
-                e.target.style.color = "red";
-              }}
-              onClick={() => {
-                setRoadmapText("Coming Soon");
-              }}
-            >
-              {roadmapText}
-            </button>
+        .app {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100vh;
+          position: relative;
+        }
+
+        /* Navbar */
+        .navbar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem 2rem;
+          background-color: #222222; /* Darker background for navbar */
+          box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand {
+          font-size: 1.8rem;
+          font-weight: bold;
+          color: #00ff6e; /* Neon green */
+        }
+
+        .nav-links {
+          list-style: none;
+          display: flex;
+          gap: 1.5rem;
+        }
+
+        .nav-links li a {
+          text-decoration: none;
+          color: #ffffff;
+          font-size: 1rem;
+          transition: color 0.3s ease;
+        }
+
+        .nav-links li a:hover {
+          color: #00ff6e;
+        }
+
+        /* Hero Section */
+        .hero {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 2rem;
+        }
+
+        .hero-text {
+          max-width: 50%;
+        }
+
+        .typing-effect {
+          font-size: 4rem;
+          font-weight: bold;
+          color: #00ff6e; /* Neon green */
+          animation: fadeIn 1s ease-in-out;
+        }
+
+        .subtitle {
+          margin-top: 1rem;
+          font-size: 1.2rem;
+          color: #aaaaaa; /* Subdued gray for subtitle */
+        }
+
+        .buttons {
+          margin-top: 1.5rem;
+          display: flex;
+          gap: 1rem;
+        }
+
+        .action-btn {
+          padding: 1rem 2rem;
+          font-size: 1.2rem;
+          border-radius: 5px;
+          cursor: pointer;
+          border: 2px solid #00ff6e;
+          background-color: transparent;
+          color: #00ff6e;
+          transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .action-btn:hover {
+          background-color: #00ff6e;
+          color: #181818;
+          transform: scale(1.05);
+        }
+
+        .hero-image {
+          width: 20%; /* Smaller image size */
+          margin-left: -10%; /* Move image further left */
+          margin-right: 10%; /* Leave space on the right */
+          animation: float 3s ease-in-out infinite;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        @keyframes float {
+          0% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+          100% {
+            transform: translateY(0);
+          }
+        }
+
+        /* Footer */
+        .footer {
+          padding: 1rem;
+          text-align: center;
+          background-color: #222222;
+          color: #ffffff;
+        }
+
+        .social-links {
+          margin-top: 1rem;
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+        }
+
+        .social-links a {
+          font-size: 1.5rem;
+          color: #00ff6e;
+          transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .social-links a:hover {
+          color: #ffffff;
+          transform: scale(1.2);
+        }
+
+        /* Popup styles */
+        .popup {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: rgba(0, 0, 0, 0.8);
+          color: #00ff6e;
+          padding: 2rem;
+          border-radius: 10px;
+          font-size: 1.5rem;
+          font-family: "Courier New", Courier, monospace;
+          text-align: center;
+          width: 50%;
+          box-shadow: 0px 0px 10px rgba(0, 255, 110, 0.7);
+          animation: popupAnimation 0.5s ease-in-out;
+        }
+
+        .popup h2 {
+          font-size: 2rem;
+          font-weight: bold;
+        }
+
+        .close-btn {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          background-color: transparent;
+          border: none;
+          color: #00ff6e;
+          font-size: 1.5rem;
+          cursor: pointer;
+          transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+          color: #ffffff;
+        }
+
+        @keyframes popupAnimation {
+          0% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+          }
+          100% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+          }
+        }
+      `}</style>
+
+      <div className="app">
+        {/* Navbar */}
+        <nav className="navbar">
+          <h1 className="brand">$COSMOS</h1>
+          <ul className="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#roadmap">Roadmap</a></li>
+            <li><a href="#about">About Us</a></li>
+          </ul>
+        </nav>
+
+        {/* Hero Section */}
+        <header className="hero">
+          <div className="hero-text">
+            <h1 className="typing-effect">{text}</h1>
+            <p className="subtitle">
+              The next-gen $NEAR AI Narrative token expanding the horizons of NEAR Blockchain.
+            </p>
+            <div className="buttons">
+              <a href="#" className="action-btn">Buy Now</a>
+              <a href="#" onClick={handleGameClick} className="action-btn">Cosmos Game</a>
+            </div>
           </div>
-        </div>
-      </main>
+          <img
+            src="https://pbs.twimg.com/profile_images/1859074824573718528/DvQYCaBY_400x400.jpg"
+            alt="Cosmos Mascot"
+            className="hero-image"
+          />
+        </header>
 
-      {/* Footer */}
-      <footer style={styles.aiText}>
-        Empowering decentralized AI for the future of innovation.
-      </footer>
-    </div>
+        {/* Popup Message */}
+        {showPopup && (
+          <div className="popup">
+            <button className="close-btn" onClick={closePopup}>X</button>
+            <h2>You dared to click on the game, your fingerprints are registered, stay tuned for the game</h2>
+          </div>
+        )}
+
+        {/* Footer */}
+        <footer className="footer">
+          <p>Connect With Us</p>
+          <div className="social-links">
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              <FaTelegram />
+            </a>
+            <a href="https://x.com/cosmosonnear" target="_blank" rel="noopener noreferrer">
+              <FaTwitter />
+            </a>
+          </div>
+        </footer>
+      </div>
+    </>
   );
-};
+}
 
 export default App;
