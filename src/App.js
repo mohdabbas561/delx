@@ -68,10 +68,10 @@ function App() {
 
       {/* Footer */}
       <footer className="footer">
-        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+        <a href="https://x.com/deltaxonnear" target="_blank" rel="noopener noreferrer">
           Twitter
         </a>
-        <a href="https://telegram.org" target="_blank" rel="noopener noreferrer">
+        <a href="https://t.me/deltaxonnear" target="_blank" rel="noopener noreferrer">
           Telegram
         </a>
       </footer>
