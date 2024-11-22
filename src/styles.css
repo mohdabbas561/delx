@@ -1,0 +1,260 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #000; /* Fully black background */
+  color: #fff;
+  overflow: hidden; /* Disable scrolling */
+}
+
+/* Main app container */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  background: #000;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 36px;
+  color: #00ff87;
+  margin-right: 30px;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+}
+
+.connect-wallet-button {
+  background: none;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.connect-wallet-button:hover {
+  background-color: #00ff87;
+  color: #000;
+}
+
+/* Total Score */
+.total-score {
+  margin-top: 10px;
+  font-size: 20px;
+  background: #000;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+  text-align: center;
+  font-size: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+/* Main Section */
+.main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  padding: 20px;
+  margin-top: 20px;
+  flex-wrap: wrap; /* Allow wrapping for mobile view */
+}
+
+/* Left Section */
+.left-section {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 50px;
+}
+
+.coming-soon {
+  font-size: 40px;
+  color: #fff;
+  position: relative;
+}
+
+.typing {
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  font-size: 50px;
+  color: #fff;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  animation: typing 3s steps(20) 1 forwards;
+}
+
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* Right Section */
+.right-section {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 50px;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Circle Button */
+.circle-button {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  background: #00ff87;
+  border: none;
+  border-radius: 50%;
+  font-size: 32px;
+  font-weight: bold;
+  color: #121212;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 30px;
+  margin-right: 20px;
+}
+
+.circle-button:hover {
+  transform: scale(1.1);
+}
+
+.circle-button:active {
+  transform: scale(0.9);
+}
+
+.tap-effect {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 36px;
+  color: red;
+  animation: popUp 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes popUp {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-30px);
+  }
+}
+
+/* Footer */
+.footer {
+  padding: 10px;
+  background: #000;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer a {
+  color: #00ff87;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Media Queries for Mobile */
+@media (max-width: 768px) {
+  /* Adjust Header for mobile */
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 15px;
+  }
+
+  .logo {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .navbar {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+
+  /* Adjust the text and button layout */
+  .main {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .left-section, .right-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Adjust circle button size on mobile */
+  .circle-button {
+    width: 200px;
+    height: 200px;
+    font-size: 28px;
+  }
+
+  .total-score {
+    font-size: 18px;
+  }
+
+  .coming-soon {
+    font-size: 35px;
+    margin-bottom: 20px;
+  }
+
+  .typing {
+    font-size: 30px;
+  }
+}
